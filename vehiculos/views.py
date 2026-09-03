@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 # Create your views here.
 def inicio(request):
-    return HttpResponse("Sistema de Control de Vehículos y Mantenciones")
+    return render(request, 'vehiculos/inicio.html')
