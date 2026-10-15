@@ -1,5 +1,10 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 from rest_framework import viewsets
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from .models import (
     Conductor,
@@ -27,43 +32,60 @@ from .serializer import (
 def inicio(request):
     return render(request, 'vehiculos/inicio.html')
 
+@login_required
+def dashboard(request):
+    return render(request, 'vehiculos/dashboard.html')
 
-class ConductorViewSet(viewsets.ModelViewSet):
+class PanelVehiculosView(LoginRequiredMixin, TemplateView):
+    template_name = 'vehiculos/panel_vehiculos.html'
+
+class ProtectedModelViewSet(viewsets.ModelViewSet):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
+class ConductorViewSet(ProtectedModelViewSet):
     queryset = Conductor.objects.all()
     serializer_class = ConductorSerializer
 
 
-class TallerViewSet(viewsets.ModelViewSet):
+# Talleres
+class TallerViewSet(ProtectedModelViewSet):
     queryset = Taller.objects.all()
     serializer_class = TallerSerializer
 
 
-class TipoMantencionViewSet(viewsets.ModelViewSet):
+# Tipos de mantención
+class TipoMantencionViewSet(ProtectedModelViewSet):
     queryset = TipoMantencion.objects.all()
     serializer_class = TipoMantencionSerializer
 
 
-class VehiculoViewSet(viewsets.ModelViewSet):
+# Vehículos
+class VehiculoViewSet(ProtectedModelViewSet):
     queryset = Vehiculo.objects.all()
     serializer_class = VehiculoSerializer
 
 
-class AsignacionVehiculoViewSet(viewsets.ModelViewSet):
+# Asignaciones de vehículos
+class AsignacionVehiculoViewSet(ProtectedModelViewSet):
     queryset = AsignacionVehiculo.objects.all()
     serializer_class = AsignacionVehiculoSerializer
 
 
-class MantencionViewSet(viewsets.ModelViewSet):
+# Mantenciones
+class MantencionViewSet(ProtectedModelViewSet):
     queryset = Mantencion.objects.all()
     serializer_class = MantencionSerializer
 
 
-class IncidenciaViewSet(viewsets.ModelViewSet):
+# Incidencias
+class IncidenciaViewSet(ProtectedModelViewSet):
     queryset = Incidencia.objects.all()
     serializer_class = IncidenciaSerializer
 
 
-class HistorialEstadoVehiculoViewSet(viewsets.ModelViewSet):
+# Historial de estados
+class HistorialEstadoVehiculoViewSet(ProtectedModelViewSet):
     queryset = HistorialEstadoVehiculo.objects.all()
     serializer_class = HistorialEstadoVehiculoSerializer
-    

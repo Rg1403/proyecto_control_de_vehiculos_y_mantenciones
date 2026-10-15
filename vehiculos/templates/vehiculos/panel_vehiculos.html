@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Vehículos - EV3</title>
+</head>
+<body>
+    <h1>Panel de Vehículos</h1>
+
+    <h2>Vista protegida basada en clases (CBV)</h2>
+
+    <p>Bienvenido, {{ request.user.username }}.</p>
+
+    <p>
+        Esta página está protegida mediante
+        LoginRequiredMixin.
+    </p>
+
+    <a href="{% url 'dashboard' %}">
+        Volver al Dashboard
+    </a>
+</body>
+</html>

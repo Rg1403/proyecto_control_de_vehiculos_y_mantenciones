@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Control - Vehículos</title>
+</head>
+<body>
+    <h1>Panel de Control de Vehículos</h1>
+
+    <p>Bienvenido, {{ request.user.username }}.</p>
+    <p>Has iniciado sesión correctamente.</p>
+
+    <h2>Sesión de usuario</h2>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+</body>
+</html>
